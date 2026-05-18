@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Josh Chittick</title>
+  <link rel="icon" href="assets/tie_emoji.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css"/>
+  <style>
+    /* Inter via rsms.me as a robust fallback if Google Fonts is slow/blocked */
+    :root { font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+    @supports (font-variation-settings: normal) {
+      :root { font-family: 'Inter var', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #f5f3ee; overflow: hidden; }
+    .swiss-root { position: fixed; inset: 0; overflow-y: auto; overflow-x: hidden; }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script src="data.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="shared.jsx"></script>
+  <script type="text/babel" src="variant-swiss-v2.jsx"></script>
+
+  <script type="text/babel">
+    const { useEffect: useEffectAppV2 } = React;
+
+    const TWEAK_DEFAULTS_V2 = /*EDITMODE-BEGIN*/{
+      "accent": "#ff5722",
+      "density": "comfortable"
+    }/*EDITMODE-END*/;
+
+    function App() {
+      const tweaks = useTweaks(TWEAK_DEFAULTS_V2);
+
+      useEffectAppV2(() => {
+        const id = 'tweaks-overrides';
+        let el = document.getElementById(id);
+        if (!el) { el = document.createElement('style'); el.id = id; document.head.appendChild(el); }
+        const dens = tweaks.values.density === 'compact' ? '0.85' : tweaks.values.density === 'spacious' ? '1.18' : '1';
+        el.textContent = `
+          .swiss-root { --swiss-accent: ${tweaks.values.accent}; --accent: ${tweaks.values.accent}; }
+          .swiss-root .sw-section { padding-top: calc(80px * ${dens}); padding-bottom: calc(80px * ${dens}); }
+        `;
+      }, [tweaks.values]);
+
+      return (
+        <>
+          <VariantSwissV2 />
+          <TweaksPanel title="Tweaks">
+            <TweakSection title="Look">
+              <TweakColor label="Accent" tweaks={tweaks} k="accent" />
+              <TweakRadio label="Density" tweaks={tweaks} k="density" options={["compact","comfortable","spacious"]} />
+            </TweakSection>
+          </TweaksPanel>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
