@@ -512,4 +512,132 @@
 .bn-contact-val { font-size: 18px; font-weight: 500; word-break: break-all; }
 .bn-card__arrow { font-size: 24px; align-self: flex-end; }
 
+/* ============================================================
+   RESUME BUTTON + MODAL
+   ============================================================ */
+.sw-exp-resume-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.sw-resume-btn {
+  font-family: var(--swiss-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid var(--swiss-rule);
+  color: var(--swiss-ink);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.sw-resume-btn:hover {
+  background: var(--swiss-ink);
+  color: var(--swiss-bg);
+}
+
+.resume-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resume-modal {
+  background: var(--swiss-bg);
+  border: 1px solid var(--swiss-rule);
+  padding: 48px;
+  max-width: 420px;
+  width: calc(100% - 48px);
+  position: relative;
+}
+
+.resume-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--swiss-mut);
+  line-height: 1;
+}
+.resume-modal__close:hover { color: var(--swiss-ink); }
+
+.resume-modal__eyebrow {
+  font-family: var(--swiss-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--swiss-mut);
+  margin-bottom: 16px;
+}
+
+.resume-modal__title {
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+
+.resume-modal__sub {
+  font-size: 14px;
+  color: var(--swiss-mut);
+  margin: 0 0 28px;
+}
+
+.resume-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resume-modal__input {
+  font-family: var(--swiss-sans);
+  font-size: 15px;
+  padding: 12px 16px;
+  border: 1px solid var(--swiss-rule-soft);
+  background: #fff;
+  color: var(--swiss-ink);
+  outline: none;
+  width: 100%;
+}
+.resume-modal__input:focus { border-color: var(--swiss-ink); }
+
+.resume-modal__submit {
+  font-family: var(--swiss-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--swiss-ink);
+  color: var(--swiss-bg);
+  border: none;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.resume-modal__submit:hover { opacity: 0.8; }
+.resume-modal__submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.resume-modal__success {
+  font-family: var(--swiss-mono);
+  font-size: 14px;
+  color: var(--swiss-accent);
+  margin: 0;
+}
+
+.resume-modal__error {
+  font-size: 13px;
+  color: #c0392b;
+  margin: 0;
+}
+
 .bn-foot { margin-top: 32px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bn-mut); }

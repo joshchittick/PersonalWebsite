@@ -2,10 +2,69 @@
 
 const { useState: useStateSwissV2, useEffect: useEffectSwissV2 } = React;
 
+function ResumeModal({ onClose }) {
+  const [email, setEmail] = useStateSwissV2("");
+  const [status, setStatus] = useStateSwissV2("idle"); // idle | submitting | done | error
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("submitting");
+    try {
+      const res = await fetch("https://formspree.io/f/mpqnpbpa", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setStatus("done");
+        setTimeout(() => {
+          window.open("assets/josh-chittick-resume.pdf", "_blank");
+          onClose();
+        }, 800);
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <div className="resume-modal-backdrop" onClick={onClose}>
+      <div className="resume-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="resume-modal__close" onClick={onClose} aria-label="Close">✕</button>
+        <div className="resume-modal__eyebrow">Resume</div>
+        <h2 className="resume-modal__title">Drop your email<br/>and I'll share it.</h2>
+        <p className="resume-modal__sub">No newsletters. Just a PDF.</p>
+        {status === "done" ? (
+          <p className="resume-modal__success">Opening now →</p>
+        ) : (
+          <form className="resume-modal__form" onSubmit={handleSubmit}>
+            <input
+              className="resume-modal__input"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoFocus
+            />
+            <button className="resume-modal__submit" type="submit" disabled={status === "submitting"}>
+              {status === "submitting" ? "Sending…" : "View Resume →"}
+            </button>
+            {status === "error" && <p className="resume-modal__error">Something went wrong. Try again.</p>}
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function VariantSwissV2() {
   const D = window.SITE_DATA;
   const [activeSection, setActiveSection] = useStateSwissV2("home");
-  const sections = ["home", "about", "now", "running", "reading", "projects", "experience", "contact"];
+  const [showResumeModal, setShowResumeModal] = useStateSwissV2(false);
+  const sections = ["home", "about", "now", "running", "projects", "experience", "contact"];
 
   useEffectSwissV2(() => {
     const root = document.querySelector(".swiss-root");
@@ -32,6 +91,7 @@ function VariantSwissV2() {
 
   return (
     <div className="swiss-root">
+      {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)} />}
       <SwissNavV2 active={activeSection} onNav={scrollTo} />
 
       {/* HERO — split: type left, Iceland photo right */}
@@ -118,29 +178,9 @@ function VariantSwissV2() {
         <NYCRunningMap />
       </section>
 
-      {/* READING */}
-      <section id="sw-reading" className="sw-section sw-section--alt">
-        <SwissSectionHead num="05" title="Reading" />
-        <div className="sw-reading-grid">
-          {D.reading.map((b, i) => (
-            <div key={i} className="sw-book">
-              <div className="sw-book__cover">
-                <div className="sw-book__spine"></div>
-                <div className="sw-book__title">{b.title}</div>
-                <div className="sw-book__author">{b.author}</div>
-              </div>
-              <div className="sw-book__meta">
-                <span className={`sw-pill sw-pill--${b.status}`}>{b.status}</span>
-                <span className="sw-book__note">{b.note}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* PROJECTS */}
       <section id="sw-projects" className="sw-section">
-        <SwissSectionHead num="06" title="Projects" />
+        <SwissSectionHead num="05" title="Projects" />
         <div className="sw-projects">
           {D.projects.map((p, i) => (
             <div key={i} className="sw-project">
@@ -160,7 +200,12 @@ function VariantSwissV2() {
 
       {/* EXPERIENCE */}
       <section id="sw-experience" className="sw-section sw-section--alt">
-        <SwissSectionHead num="07" title="Experience" />
+        <SwissSectionHead num="06" title="Experience" />
+        <div className="sw-exp-resume-row">
+          <button className="sw-resume-btn" onClick={() => setShowResumeModal(true)}>
+            View Resume ↗
+          </button>
+        </div>
         <div className="sw-exp">
           {D.experience.map((e, i) => (
             <div key={i} className="sw-exp__row">
@@ -175,7 +220,7 @@ function VariantSwissV2() {
 
       {/* CONTACT */}
       <section id="sw-contact" className="sw-section sw-contact-section">
-        <SwissSectionHead num="08" title="Contact" />
+        <SwissSectionHead num="07" title="Contact" />
         <div className="sw-contact-grid">
           <div className="sw-contact-cta">
             <h2 className="sw-h2">Let's talk.</h2>
@@ -212,7 +257,6 @@ function SwissNavV2({ active, onNav }) {
     ["about", "About"],
     ["now", "Now"],
     ["running", "Running"],
-    ["reading", "Reading"],
     ["projects", "Projects"],
     ["experience", "Experience"],
     ["contact", "Contact"],

@@ -78,15 +78,6 @@ window.SITE_DATA = {
     },
   ],
 
-  reading: [
-    { title: "The Power Broker", author: "Robert Caro", status: "reading", note: "Three years in. Still essential." },
-    { title: "Working in Public", author: "Nadia Eghbal", status: "read", note: "Reframed how I think about platform PM." },
-    { title: "Inspired", author: "Marty Cagan", status: "read", note: "The PM canon." },
-    { title: "Piranesi", author: "Susanna Clarke", status: "read", note: "Read it in one sitting on a flight." },
-    { title: "The Making of Prince of Persia", author: "Jordan Mechner", status: "read", note: "A journal of making the game. Worth reading if you ship anything." },
-    { title: "Seeing Like a State", author: "James C. Scott", status: "shelf", note: "Next up." },
-  ],
-
   // Real work + selected projects/publications, framed for product audience
   projects: [
     {
