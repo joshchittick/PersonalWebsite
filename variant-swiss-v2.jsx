@@ -145,6 +145,15 @@ function VariantSwissV2() {
             <p className="sw-body-lg">{D.about.long}</p>
             <p className="sw-body">{D.about.long2}</p>
           </div>
+          <div className="sw-about-facts">
+            {D.about.facts.map(([k, v]) => (
+              <div key={k} className="sw-fact">
+                <span className="sw-fact__k">{k}</span>
+                <span className="sw-fact__rule"></span>
+                <span className="sw-fact__v">{v}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
