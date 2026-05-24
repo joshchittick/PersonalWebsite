@@ -641,3 +641,46 @@
 }
 
 .bn-foot { margin-top: 32px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bn-mut); }
+
+
+/* ============================================================
+   RESPONSIVE — Swiss variant mobile / small-screen adjustments
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Nav */
+  .sw-nav { padding: 14px 20px; grid-template-columns: auto 1fr; }
+  .sw-nav__time { display: none; }
+  .sw-nav__list { gap: 0; justify-self: start; }
+  .sw-nav__link { padding: 5px 8px; font-size: 12px; }
+
+  /* Sections */
+  .sw-section { padding: 48px 20px; }
+  .sw-section--alt { padding-left: 20px; padding-right: 20px; }
+
+  /* Section head */
+  .sw-sec-head__title { font-size: 24px; }
+
+  /* Hero stats: 4-up → 2-up */
+  .sw-hero-v2__stats { grid-template-columns: repeat(2, 1fr); }
+
+  /* About: side-by-side → stacked */
+  .sw-about-grid { grid-template-columns: 1fr; }
+  .sw-about-img { grid-row: auto; }
+  .sw-about-img img { width: 100% !important; height: 220px !important; }
+
+  /* About facts: hide the decorative rule column, tighten key width */
+  .sw-fact { grid-template-columns: 110px 1fr; }
+  .sw-fact__rule { display: none; }
+
+  /* Projects: 4-col → 2-col (num + content) */
+  .sw-project { grid-template-columns: 48px 1fr; row-gap: 8px; }
+  .sw-project__blurb { grid-column: 2; }
+  .sw-project__tags  { grid-column: 2; }
+
+  /* Experience: 4-col → single column */
+  .sw-exp__row { grid-template-columns: 1fr; gap: 2px; padding: 16px 0; }
+  .sw-exp__yr  { margin-bottom: 2px; }
+
+  /* Contact: 2-col → 1-col */
+  .sw-contact-grid { grid-template-columns: 1fr; gap: 40px; }
+}
